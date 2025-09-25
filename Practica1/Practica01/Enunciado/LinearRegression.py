@@ -11,8 +11,12 @@ class LinearReg:
         y (ndarray): Shape (m,) the real values of the prediction
         w, b (scalar): Parameters of the model
     """
-    def __init__(self, x, y,w,b):
+    def __init__(self, x, y, w, b):
         #(scalar): Parameters of the model
+        self.input = x
+        self.real = y
+        self.w = w
+        self.b = b
         return #delete this return
 
     """
@@ -35,8 +39,9 @@ class LinearReg:
         total_cost (float): The cost of using w,b as the parameters for linear regression
                to fit the data points in x and y
     """
-    def compute_cost(self):
-        return 0
+    def compute_cost(self, n):
+        error = (1/len(self.real)) * np.sum(np.square(self.real - self.input))
+        return error
     
 
     """
@@ -48,8 +53,12 @@ class LinearReg:
       dj_db (scalar): The gradient of the cost w.r.t. the parameter b     
      """
     def compute_gradient(self):
-        return 0, 0
-    
+        
+        dj_dw = (1/(2 * len(self.real))) * np.sum(np.square(self.w * self.real + self.b - self.input))
+        dj_db = (1/len(self.real)) * np.sum(np.square(self.real - self.input))
+        return dj_dw, dj_db
+
+
     
     """
     Performs batch gradient descent to learn theta. Updates theta by taking 
@@ -78,12 +87,12 @@ class LinearReg:
         return self.w, self.b, J_history, w_initial, b_initial
 
 
-def cost_test_obj(x,y,w_init,b_init):
-    lr = LinearReg(x,y,w_init,b_init)
+def cost_test_obj(x, y, w_init, b_init):
+    lr = LinearReg(x, y, w_init, b_init)
     cost = lr.compute_cost()
     return cost
 
-def compute_gradient_obj(x,y,w_init,b_init):
-    lr = LinearReg(x,y,w_init,b_init)
+def compute_gradient_obj(x, y, w_init, b_init):
+    lr = LinearReg(x, y, w_init, b_init)
     dw,db = lr.compute_gradient()
     return dw,db

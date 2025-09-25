@@ -16,7 +16,7 @@ class LinearRegMulti(LinearReg):
         lambda: Regularization parameter. Most be between 0..1. 
         Determinate the weight of the regularization.
     """
-    def __init__(self, x, y,w,b, lambda_):
+    def __init__(self, x, y, w, b, lambda_):
         return
 
     def f_w_b(self, x):
@@ -47,12 +47,12 @@ class LinearRegMulti(LinearReg):
         return 0
 
     
-def cost_test_multi_obj(x,y,w_init,b_init):
-    lr = LinearRegMulti(x,y,w_init,b_init,0)
+def cost_test_multi_obj(x, y, w_init, b_init):
+    lr = LinearRegMulti(x, y, w_init, b_init, 0)
     cost = lr.compute_cost()
     return cost
 
-def compute_gradient_multi_obj(x,y,w_init,b_init):
-    lr = LinearRegMulti(x,y,w_init,b_init,0)
+def compute_gradient_multi_obj(x, y, w_init, b_init):
+    lr = LinearRegMulti(x, y, w_init, b_init, 0)
     dw,db = lr.compute_gradient()
     return dw,db

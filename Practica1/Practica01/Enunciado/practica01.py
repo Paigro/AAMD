@@ -139,3 +139,10 @@ print("Second Part, Linear Regression Multivariable")
 #test_cost_multi(x_train, y_train)
 #test_gradient_multi(x_train, y_train)
 #test_gradient_descent_multi(x_train, y_train)
+
+if __name__ == '__main__':      
+      # Cogemos datos que nos interesan, los scores de periodistas y los de los usuarios.
+      scores, userScores = load_data_csv("data/games-data.csv", "score", "user score")
+      print(userScores)
+      print(scores)
+      
