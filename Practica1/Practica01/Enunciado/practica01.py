@@ -98,8 +98,8 @@ def run_gradient_descent_multi(x_train, y_train,alpha = 0.01,iterations=1500,lam
       initial_b = 0.
 
       print("---- Gradient descent--- lamb ",lambda_)
-      lr = LinearRegMulti(x_train,y_train,initial_w,initial_b,lambda_)
-      w,b,h,w_init,b_init = lr.gradient_descent(alpha,iterations)
+      lr = LinearRegMulti(x_train, y_train, initial_w, initial_b, lambda_)
+      w, b, h, w_init, b_init = lr.gradient_descent(alpha, iterations)
 
       return w, b
 
@@ -127,7 +127,7 @@ def test_gradient_descent_multi(x_train, y_train):
 
 #First Part, Linear Regression
 print("First Part, Linear Regression")
-#TO-DO the main program.
+#TODO the main program.
 #test_cost_one(x_train, y_train)
 #test_gradient_one(x_train, y_train)
 #test_gradient_descent_one(x_train, y_train,w,b)
@@ -135,7 +135,7 @@ print("First Part, Linear Regression")
 
 #Second Part, Linear Regression Multivariable
 print("Second Part, Linear Regression Multivariable")
-#TO-DO the main program.
+#TODO the main program.
 #test_cost_multi(x_train, y_train)
 #test_gradient_multi(x_train, y_train)
 #test_gradient_descent_multi(x_train, y_train)
