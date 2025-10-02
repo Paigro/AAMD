@@ -146,3 +146,7 @@ if __name__ == '__main__':
       print(userScores)
       print(scores)
       
+      test_cost_one(scores, userScores)
+      #test_gradient_one(scores, userScores)
+      #test_gradient_descent_one(scores, userScores,1,b)
+      

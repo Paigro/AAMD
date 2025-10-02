@@ -14,7 +14,7 @@ class LinearReg:
     def __init__(self, x, y, w, b):
         #(scalar): Parameters of the model
         self.input = x
-        self.real = y
+        self.output = y
         self.w = w
         self.b = b
         return #delete this return
@@ -29,7 +29,7 @@ class LinearReg:
         the linear regression value
     """
     def f_w_b(self, x):
-        return self.w * x + self.b
+        return np.multiply(self.w, x) + self.b
 
 
     """
@@ -39,8 +39,11 @@ class LinearReg:
         total_cost (float): The cost of using w,b as the parameters for linear regression
                to fit the data points in x and y
     """
-    def compute_cost(self, n):
-        error = (1/len(self.real)) * np.sum(np.square(self.real - self.input))
+    # compute MSE
+    def compute_cost(self):
+        Y_pred = self.f_w_b(self.output)
+        error = np.mean((self.output - Y_pred) ** 2)/2
+        #error = np.multiply((1/2*len(self.output)), np.sum(np.square(self.output - Y_pred)))
         return error
     
 
@@ -53,10 +56,8 @@ class LinearReg:
       dj_db (scalar): The gradient of the cost w.r.t. the parameter b     
      """
     def compute_gradient(self):
-        dj_dw = np.gradient(self.x, self.w)
-        dj_db = np.gradient(self.x, self.b)        
-        #dj_dw = (1/(2 * len(self.real))) * np.sum(np.square(self.w * self.real + self.b - self.input))
-        #dj_db = (1/len(self.real)) * np.sum(np.square(self.real - self.input))
+        dj_dw = np.gradient(self.input, self.w) # Derivada parcial de w respecto a x.
+        dj_db = np.gradient(self.input, self.b) # Derivada parcial de b respecto a x.
         return dj_dw, dj_db
 
 
@@ -85,6 +86,20 @@ class LinearReg:
         w_initial = copy.deepcopy(self.w)  # avoid modifying global w within function
         b_initial = copy.deepcopy(self.b)  # avoid modifying global w within function
         #TODO: gradient descent iteration by m examples.
+        w_history[0] = w_initial
+        J_history[0] = self.compute_cost()
+        
+        for i  in range(1, num_iters):
+            pendiente_w = np.sum((self.f_w_b(self.input) - self.output) ** 2) / len(self.input)
+            pendiente_b = np.sum(np.multiply(self.f_w_b(self.input) - self.output), np.multiply(2, self.input)) / len(self.input)
+
+            self.w = w_history[i-1] - alpha * pendiente_w
+            self.b = self.b - alpha * pendiente_b
+
+            J_history[i] = self.compute_cost()
+            w_history[i] = self.w
+
+
         return self.w, self.b, J_history, w_initial, b_initial
 
 
