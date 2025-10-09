@@ -100,7 +100,7 @@ def run_gradient_descent_multi(x_train, y_train,alpha = 0.01,iterations=1500,lam
       print("---- Gradient descent--- lamb ",lambda_)
       lr = LinearRegMulti(x_train, y_train, initial_w, initial_b, lambda_)
       w, b, h, w_init, b_init = lr.gradient_descent(alpha, iterations)
-
+      print(w)
       return w, b
 
 
@@ -109,7 +109,7 @@ def test_gradient_descent_multi(x_train, y_train):
       w1, b1 = run_gradient_descent_multi(x_train, y_train,0.01,1500,0)
       w1Sol = [0.71606939, 0.08070621, -0.07954303]
       b1Sol = 6.988604092799393
-      print(f"w,b found by gradient descent with labmda 0 ({w1Sol} {b1Sol}):", w1, b1)
+      # print(f"w,b found by gradient descent with labmda 0 ({w1Sol} {b1Sol}):", w1, b1)
       numSucces = GetNumGradientsSuccess(w1,w1Sol,b1,b1Sol)
 
       assert numSucces == (len(w1Sol)+1), f"Case 1: w1,b1 is wrong: {w1},{b1} != {w1Sol},{b1Sol}"
@@ -126,20 +126,20 @@ def test_gradient_descent_multi(x_train, y_train):
 
 #print(userScores)
 #print(scores)
-#First Part, Linear Regression
+# First Part, Linear Regression
 # Cogemos datos que nos interesan, los scores de periodistas y los de los usuarios.
 print("First Part, Linear Regression")
 scores, userScores = load_data_csv("data/games-data.csv", "score", "user score")
-#TODO the main program.
+# The main program.
 test_cost_one(scores, userScores)
 test_gradient_one(scores, userScores)
 weight,bias = run_gradient_descent_one(scores, userScores)
 test_gradient_descent_one(scores, userScores,weight,bias)
 
-#Second Part, Linear Regression Multivariable
+# Second Part, Linear Regression Multivariable
 print("Second Part, Linear Regression Multivariable")
-x_train, y_train = load_data_csv_multi("data/games-data.csv", "score", "users", "critics", "user score")
-#TODO the main program.
+x_train, y_train = load_data_csv_multi("data/games-data.csv", "score", "critics", "users", "user score")
+# The main program.
 test_cost_multi(x_train, y_train)
-test_gradient_multi(scores, userScores)
-#test_gradient_descent_multi(scores, userScores)
+test_gradient_multi(x_train, y_train)
+test_gradient_descent_multi(x_train, y_train)

@@ -42,7 +42,7 @@ class LinearReg:
     # compute MSE
     def compute_cost(self):
         Y_pred = self.f_w_b(self.input)
-        error = np.sum(np.square(self.output - Y_pred))/(np.size(self.output)*2)
+        error = np.sum(np.square(Y_pred - self.output))/(np.size(self.output)*2)
         return error
     
 
@@ -87,7 +87,7 @@ class LinearReg:
         b_history = []
         w_initial = copy.deepcopy(self.w)  # avoid modifying global w within function
         b_initial = copy.deepcopy(self.b)  # avoid modifying global w within function
-        #TODO: gradient descent iteration by m examples.
+        # Gradient descent iteration by m examples.
         w_history.append(w_initial)
         J_history.append(self.compute_cost())
         b_history.append(b_initial)

@@ -53,15 +53,13 @@ def load_data_csv_multi(path,x1_colum,x2_colum,x3_colum,y_colum):
     data = pd.read_csv(path)
     data = cleanDataMulti(data)
     x1 = data[x1_colum].to_numpy()
-    #x1= zscore_normalize_features(x1)
     x2 = data[x2_colum].to_numpy()
-    #x2= zscore_normalize_features(x2)
     x3 = data[x3_colum].to_numpy()
-    #x3= zscore_normalize_features(x3)
     X = np.array([x1, x2, x3])
     X = X.T
+    X_norm, mu, sigma = zscore_normalize_features(X)
     y = data[y_colum].to_numpy()
-    return X, y
+    return X_norm, y
 
 def GetNumGradientsSuccess(w1,w1Sol,b1,b1Sol):
     iterator = 0
