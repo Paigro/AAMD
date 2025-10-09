@@ -124,29 +124,22 @@ def test_gradient_descent_multi(x_train, y_train):
 
       print("\033[92mAll tests passed!")
 
-
+#print(userScores)
+#print(scores)
 #First Part, Linear Regression
+# Cogemos datos que nos interesan, los scores de periodistas y los de los usuarios.
 print("First Part, Linear Regression")
+scores, userScores = load_data_csv("data/games-data.csv", "score", "user score")
 #TODO the main program.
-#test_cost_one(x_train, y_train)
-#test_gradient_one(x_train, y_train)
-#test_gradient_descent_one(x_train, y_train,w,b)
-
+test_cost_one(scores, userScores)
+test_gradient_one(scores, userScores)
+weight,bias = run_gradient_descent_one(scores, userScores)
+test_gradient_descent_one(scores, userScores,weight,bias)
 
 #Second Part, Linear Regression Multivariable
 print("Second Part, Linear Regression Multivariable")
+x_train, y_train = load_data_csv_multi("data/games-data.csv", "score", "users", "critics", "user score")
 #TODO the main program.
-#test_cost_multi(x_train, y_train)
-#test_gradient_multi(x_train, y_train)
-#test_gradient_descent_multi(x_train, y_train)
-
-if __name__ == '__main__':      
-      # Cogemos datos que nos interesan, los scores de periodistas y los de los usuarios.
-      scores, userScores = load_data_csv("data/games-data.csv", "score", "user score")
-      print(userScores)
-      print(scores)
-      
-      test_cost_one(scores, userScores)
-      #test_gradient_one(scores, userScores)
-      #test_gradient_descent_one(scores, userScores,1,b)
-      
+test_cost_multi(x_train, y_train)
+test_gradient_multi(scores, userScores)
+#test_gradient_descent_multi(scores, userScores)

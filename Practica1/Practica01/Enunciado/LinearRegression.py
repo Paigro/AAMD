@@ -41,9 +41,8 @@ class LinearReg:
     """
     # compute MSE
     def compute_cost(self):
-        Y_pred = self.f_w_b(self.output)
-        error = np.mean((self.output - Y_pred) ** 2)/2
-        #error = np.multiply((1/2*len(self.output)), np.sum(np.square(self.output - Y_pred)))
+        Y_pred = self.f_w_b(self.input)
+        error = np.sum(np.square(self.output - Y_pred))/(np.size(self.output)*2)
         return error
     
 
@@ -56,8 +55,10 @@ class LinearReg:
       dj_db (scalar): The gradient of the cost w.r.t. the parameter b     
      """
     def compute_gradient(self):
-        dj_dw = np.gradient(self.input, self.w) # Derivada parcial de w respecto a x.
-        dj_db = np.gradient(self.input, self.b) # Derivada parcial de b respecto a x.
+        Y_pred = self.f_w_b(self.input)
+
+        dj_dw = np.sum(np.multiply((Y_pred - self.output),self.input))/np.size(self.output) # Derivada parcial de w respecto a x.
+        dj_db = np.sum(Y_pred - self.output)/np.size(self.output) # Derivada parcial de b respecto a x.
         return dj_dw, dj_db
 
 
@@ -83,22 +84,23 @@ class LinearReg:
         # An array to store cost J and w's at each iteration — primarily for graphing later
         J_history = []
         w_history = []
+        b_history = []
         w_initial = copy.deepcopy(self.w)  # avoid modifying global w within function
         b_initial = copy.deepcopy(self.b)  # avoid modifying global w within function
         #TODO: gradient descent iteration by m examples.
-        w_history[0] = w_initial
-        J_history[0] = self.compute_cost()
+        w_history.append(w_initial)
+        J_history.append(self.compute_cost())
+        b_history.append(b_initial)
         
-        for i  in range(1, num_iters):
-            pendiente_w = np.sum((self.f_w_b(self.input) - self.output) ** 2) / len(self.input)
-            pendiente_b = np.sum(np.multiply(self.f_w_b(self.input) - self.output), np.multiply(2, self.input)) / len(self.input)
+        for i  in range(num_iters):
+            new_w, new_b = self.compute_gradient()
 
-            self.w = w_history[i-1] - alpha * pendiente_w
-            self.b = self.b - alpha * pendiente_b
+            self.w = self.w - alpha * new_w
+            self.b = self.b - alpha * new_b
 
-            J_history[i] = self.compute_cost()
-            w_history[i] = self.w
-
+            J_history.append(self.compute_cost())
+            w_history.append(self.w)
+            b_history.append(self.b)
 
         return self.w, self.b, J_history, w_initial, b_initial
 

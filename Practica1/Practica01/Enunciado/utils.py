@@ -38,19 +38,26 @@ def zscore_normalize_features(X):
       sigma (ndarray (n,))  : standard deviation of each feature
     """
     # find the mean of each column/feature
-    # mu will have shape (n,)
+    # mu will have shape (n,m)
+    mu = np.mean(X, axis=0)
     # find the standard deviation of each column/feature
-    # sigma will have shape (n,)
+    # sigma will have shape (n,m)
+    sigma = np.std(X, axis=0, ddof=0)
     # element-wise, subtract mu for that column from each example,
     # divide by std for that column
-    return 0, 0, 0
+    X_norm = (X - mu) / sigma
+
+    return X_norm, mu, sigma
 
 def load_data_csv_multi(path,x1_colum,x2_colum,x3_colum,y_colum):
     data = pd.read_csv(path)
     data = cleanDataMulti(data)
     x1 = data[x1_colum].to_numpy()
+    #x1= zscore_normalize_features(x1)
     x2 = data[x2_colum].to_numpy()
+    #x2= zscore_normalize_features(x2)
     x3 = data[x3_colum].to_numpy()
+    #x3= zscore_normalize_features(x3)
     X = np.array([x1, x2, x3])
     X = X.T
     y = data[y_colum].to_numpy()
