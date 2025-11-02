@@ -2,6 +2,7 @@ import numpy as np
 from matplotlib import pyplot
 from scipy.io import loadmat
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.metrics import confusion_matrix
 
 """
 Displays 2D data stored in X in a nice grid.
@@ -65,6 +66,12 @@ def one_hot_encoding(Y):
     encoder = OneHotEncoder(sparse_output=False) 
     YEnc = encoder.fit_transform(Y)
     return YEnc
+'''
+Implementation of the confusion matrix function
+'''
+def confMatrix(y_true, y_pred):
+    cm = confusion_matrix(y_true, y_pred, labels=[0, 1])
+    return cm
 
 """
 Implementation of the accuracy metrics function
@@ -77,3 +84,29 @@ def accuracy(P,Y):
         Y = np.argmax(Y, axis=1)
     # calcula la precision como la media de aciertos.
     return np.mean(P == Y)
+
+'''
+Implementation of the precision function
+'''
+def precision(tp, fp):
+    # Hace la comprobacion para evitar division por cero.
+    prec = tp / (tp + fp) if (tp + fp) > 0 else 0
+    return prec
+
+'''
+Implementation of the recall function
+'''
+def recall(tp, fn):
+    # Hace la comprobacion para evitar division por cero.
+    rec = tp / (tp + fn) if (tp + fn) > 0 else 0
+    return rec
+
+'''
+Implementation of the F1 Score function
+'''
+def F1Score(tp, fp, fn):
+    prec = precision(tp, fp)
+    rec = recall(tp, fn)
+    # Hace la comprobacion para evitar division por cero.
+    f1 = 2 * ((prec * rec) / (prec + rec)) if (prec + rec) > 0 else 0
+    return f1
