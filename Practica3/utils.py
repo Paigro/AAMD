@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix
 """
 Displays 2D data stored in X in a nice grid.
 """
-def displayData(X, example_width=None, figsize=(10, 10)):
+def displayData(X, example_width=None, figsize=(100, 100)):
 
     # Compute rows, cols
     if X.ndim == 2:
