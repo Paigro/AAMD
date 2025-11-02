@@ -19,5 +19,5 @@ predict_test(p, y, accuracy)
 
 # Ejercicio 2.
 # One hot encoding de las etiquetas.
-#y_o_h = one_hot_encoding(y)
-#compute_cost_test(twilightsparkle, a3, y_o_h)
+y_o_h = one_hot_encoding(y)
+compute_cost_test(twilightsparkle, a3, y_o_h)

@@ -70,5 +70,10 @@ def one_hot_encoding(Y):
 Implementation of the accuracy metrics function
 """
 def accuracy(P,Y):
-	#TO-DO: implements
-	return -1
+    # convierte one-hot a indices
+    if P.ndim > 1:
+        P = np.argmax(P, axis=1)
+    if Y.ndim > 1:
+        Y = np.argmax(Y, axis=1)
+    # calcula la precision como la media de aciertos.
+    return np.mean(P == Y)
