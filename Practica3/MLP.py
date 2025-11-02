@@ -10,8 +10,8 @@ class MLP:
         theta2 (array_like): Weights for the second layer in the neural network.
     """
     def __init__(self,theta1,theta2):
-        self.theta1 = theta1
-        self.theta2 = theta2
+        self.theta1 = theta1 # Pesos de la capa oculta.
+        self.theta2 = theta2 # Pesos de la capa de salida.
         
     """
     Num elements in the training data. (private)
@@ -29,7 +29,7 @@ class MLP:
         z (array_like): activation signal received by the layer.
     """
     def _sigmoid(self,z):
-        return 0
+        return 1 / (1 + np.exp(-z))
 
     """
     Run the feedwordwar neural network step
@@ -43,8 +43,25 @@ class MLP:
     z2,z3 (array_like): signal fuction of two last layers
     """
     def feedforward(self,x):
-        a1,a2,a3,z2,z3 = 0
-        return a1,a2,a3,z2,z3 # devolvemos a parte de las activaciones, los valores sin ejecutar la función de activación
+        # Capa de entrada.
+        m = self._size(x) # Numero de ejemplos.
+        a1 = x
+        # Datos de entrada originales.
+        a1 = np.hstack([np.ones((m,1)),a1]) # Anyadimos una columna de unos a los datos de entrada (bias).
+
+        # Procesamos capa oculta.
+        # Calculamos la salida de la primera capa oculta.
+        z2 = np.dot(a1,self.theta1.T) # Producto punto entre la entrada y los pesos de la primera capa.
+        a2 = self._sigmoid(z2) # Aplicamos la funcion de activacion.
+        m = self._size(a2) # Actualizamos el numero de ejemplos.
+        a2 = np.hstack([np.ones((m,1)),a2])  # Anyadimos una columna de unos a la salida de la capa oculta (bias).
+
+        # Procesamos capa de salida.
+        z3 = np.dot(a2,self.theta2.T) # Producto punto entre la salida de la capa oculta y los pesos de la segunda capa.
+        a3 = self._sigmoid(z3) # Aplicamos la funcion de activacion.
+         
+        # Devolvemos a parte de las activaciones, los valores sin ejecutar la funcion de activacion.
+        return a1,a2,a3,z2,z3 
 
 
     """
@@ -59,7 +76,12 @@ class MLP:
 	J (scalar): the cost.
     """
     def compute_cost(self, yPrime,y): # calcula solo el coste, para no ejecutar nuevamente el feedforward.
-        J = 0
+        # Numero de ejemplos.
+        m = self._size(y)
+        # Funcion de coste.
+        J = (-1/m) * np.sum( 
+            y * np.log(yPrime) + (1 - y) * np.log(1 - yPrime) 
+            )
         return J
     
 
@@ -74,7 +96,8 @@ class MLP:
 	p (scalar): the class index with the highest activation value.
     """
     def predict(self,a3):
-        p = -1
+        # np.argmax devuelve el valor maximo de a3 en la dimension 1 (filas).
+        p = np.argmax(a3, axis=1) 
         return p
 
     
