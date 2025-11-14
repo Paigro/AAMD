@@ -23,8 +23,8 @@ def main():
 
     # Ejercicio 3.
     # Calculo de la matriz de confusion y F1 Score.
-    y_binario = (y == 10).astype(int)  # Clase 10 como positiva
-    p_binario = (p == 10).astype(int)  # Clase 10 como positiva
+    y_binario = (y == 0).astype(int) # Etiquetas binarias (1 si es la clase 0, 0 en caso contrario).
+    p_binario = (p == 0).astype(int) # Predicciones binarias (1 si es la clase 0, 0 en caso contrario).
     # Calculo de la matriz de confusion.
     cm = confMatrix(y_binario, p_binario)
     # Calculo de precision, recall y F1 Score.
@@ -35,3 +35,5 @@ def main():
     print(f"F1Score={f1}, TN={tn}, FP={fp}, FN={fn}, TP={tp}")
 
     displayData(x)
+
+main()

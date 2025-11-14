@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix
 """
 Displays 2D data stored in X in a nice grid.
 """
-def displayData(X, example_width=None, figsize=(100, 100)):
+def displayData(X, example_width=None, figsize=(10, 10)):
 
     # Compute rows, cols
     if X.ndim == 2:
@@ -33,6 +33,9 @@ def displayData(X, example_width=None, figsize=(100, 100)):
     ax_array = [ax_array] if m == 1 else ax_array.ravel()
 
     for i, ax in enumerate(ax_array):
+        if i >= m:
+            ax.axis('off')
+            continue
         ax.imshow(X[i].reshape(example_width, example_width, order='F'),
                   cmap='Greys', extent=[0, 1, 0, 1])
         ax.axis('off')
@@ -70,7 +73,7 @@ def one_hot_encoding(Y):
 Implementation of the confusion matrix function
 '''
 def confMatrix(y_true, y_pred):
-    cm = confusion_matrix(y_true, y_pred, labels=[0, 1])
+    cm = confusion_matrix(y_true, y_pred)
     return cm
 
 """
@@ -90,7 +93,7 @@ Implementation of the precision function
 '''
 def precision(tp, fp):
     # Hace la comprobacion para evitar division por cero.
-    prec = tp / (tp + fp) if (tp + fp) > 0 else 0
+    prec = tp / (tp + fp)
     return prec
 
 '''
@@ -98,7 +101,7 @@ Implementation of the recall function
 '''
 def recall(tp, fn):
     # Hace la comprobacion para evitar division por cero.
-    rec = tp / (tp + fn) if (tp + fn) > 0 else 0
+    rec = tp / (tp + fn)
     return rec
 
 '''
@@ -108,5 +111,5 @@ def F1Score(tp, fp, fn):
     prec = precision(tp, fp)
     rec = recall(tp, fn)
     # Hace la comprobacion para evitar division por cero.
-    f1 = 2 * ((prec * rec) / (prec + rec)) if (prec + rec) > 0 else 0
+    f1 = 2 * ((prec * rec) / (prec + rec))
     return f1
