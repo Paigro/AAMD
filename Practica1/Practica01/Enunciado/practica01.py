@@ -32,7 +32,6 @@ def test_gradient_one(x_train, y_train):
 
       print("----Compute gradient-------")
       compute_gradient_test_one(compute_gradient_obj)
-
 def test_cost_one(x_train, y_train):
 
       initial_w = 2
@@ -45,7 +44,6 @@ def test_cost_one(x_train, y_train):
       print(f'Cost at initial w (35.841): {lrcost:.3f}')
       print("----Compute cost-------")
       compute_cost_test_one(cost_test_obj)
-
 def run_gradient_descent_one(x_train, y_train,alpha = 0.01,iterations=1500):
       # initialize fitting parameters. Recall that the shape of w is (n,)
       initial_w = 0.
@@ -57,8 +55,6 @@ def run_gradient_descent_one(x_train, y_train,alpha = 0.01,iterations=1500):
       print("w,b found by gradient descent (0.8262848855238131 1.0746825556592443):", w, b)
 
       return w, b
-
-
 def test_gradient_descent_one(x_train, y_train, w, b):
       predict1 = 3.5 * w + b
       print('for score 3.5, we predict user score of (3.97) %.2f' %
@@ -80,18 +76,12 @@ def test_gradient_descent_one(x_train, y_train, w, b):
 
 
 # Functions to testing multi variable.
-
-
 def test_gradient_multi(x_train, y_train):
       print("------------test_gradient-----------")
       compute_gradient_test_multi(compute_gradient_multi_obj)
-
-
 def test_cost_multi(x_train, y_train):
       print("------------test_cost-----------")
       compute_cost_test_multi(cost_test_multi_obj)
-
-
 def run_gradient_descent_multi(x_train, y_train,alpha = 0.01,iterations=1500,lambda_=0):
       # initialize fitting parameters. Recall that the shape of w is (n,)
       initial_w = np.zeros(x_train.shape[1])
@@ -102,9 +92,6 @@ def run_gradient_descent_multi(x_train, y_train,alpha = 0.01,iterations=1500,lam
       w, b, h, w_init, b_init = lr.gradient_descent(alpha, iterations)
       print(w)
       return w, b
-
-
-
 def test_gradient_descent_multi(x_train, y_train):
       w1, b1 = run_gradient_descent_multi(x_train, y_train,0.01,1500,0)
       w1Sol = [0.71606939, 0.08070621, -0.07954303]
@@ -124,11 +111,9 @@ def test_gradient_descent_multi(x_train, y_train):
 
       print("\033[92mAll tests passed!")
 
-#print(userScores)
-#print(scores)
-# First Part, Linear Regression
-# Cogemos datos que nos interesan, los scores de periodistas y los de los usuarios.
+# Linear Regression
 print("First Part, Linear Regression")
+# Cogemos datos que nos interesan, los scores de periodistas y los de los usuarios.
 scores, userScores = load_data_csv("data/games-data.csv", "score", "user score")
 # The main program.
 test_cost_one(scores, userScores)

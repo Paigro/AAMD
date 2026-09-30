@@ -1,6 +1,4 @@
 import numpy as np
-import copy
-import math
 
 from LinearRegressionMulti import LinearRegMulti
 
@@ -19,17 +17,18 @@ class LogisticRegMulti(LinearRegMulti):
     def __init__(self, x, y,w,b, lambda_):
         super().__init__(x, y,w,b,lambda_)
 
-
     def f_w_b(self, x):
+        # regMulty => y = w1*x1 + w2*x2 + ... + wn*xn + b 
         ex = super().f_w_b(x)
+        # sigmoid function (probabilidad) => y = 1 / (1 + e^(-ex))
         return 1/(1 + (np.exp(-ex)))
  
     def compute_cost(self):
         Y_pred = self.f_w_b(self.input)
-        
-        error = self.output * np.log(Y_pred) + (1 - self.output) * np.log(1 - Y_pred)
-        loss = np.sum(error)
-        total_loss = (-1 / self.input.shape[0] * loss)
+
+        # J = -1/m * sum(y*log(y_pred) + (1-y)*log(1-y_pred)) 
+        loss = np.sum(self.output * np.log(Y_pred) + (1 - self.output) * np.log(1 - Y_pred))
+        total_loss = (-1 / self.m * loss)
         
         total_loss += self._regularizationL2Cost()
         return  total_loss

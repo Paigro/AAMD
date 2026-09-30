@@ -12,28 +12,20 @@ class LinearReg:
         w, b (scalar): Parameters of the model
     """
     def __init__(self, x, y, w, b):
-        #(scalar): Parameters of the model
-        self.input = x
-        self.output = y
+        # parametros del modelo
+        self.input = x  # input de entrenamiento
+        self.output = y # output de entrenamiento
         self.w = w
         self.b = b
-        return #delete this return
-
+        self.m = x.shape[0]  # numero de ejemplos de entrenamiento
     """
-    Computes the linear regression function.
-
-    Args:
-        x (ndarray): Shape (m,) Input to the model
-    
-    Returns:
-        the linear regression value
+    Realiza la prediccion de la funcion lineal con los parametros w y b para un input x.
     """
     def f_w_b(self, x):
         return np.multiply(self.w, x) + self.b
-
-
     """
-    Computes the cost function for linear regression.
+    Funcion de coste para regresion lineal.
+    Se calcula el error cuadratico medio entre las predicciones y los valores reales.
 
     Returns
         total_cost (float): The cost of using w,b as the parameters for linear regression
@@ -42,14 +34,12 @@ class LinearReg:
     # compute MSE
     def compute_cost(self):
         Y_pred = self.f_w_b(self.input)
-        error = np.sum(np.square(Y_pred - self.output))/(np.size(self.output)*2)
+        # MSE = (pred - real)^2 / (2*m) donde m es el numero de ejemplos de entrenamiento
+        error = np.sum(np.square(Y_pred - self.output))/(self.m*2)
         return error
     
-
     """
-    Computes the gradient for linear regression 
-    Args:
-
+    Calcula la pendiente de la funcion de coste para minimizarla
     Returns
       dj_dw (scalar): The gradient of the cost w.r.t. the parameters w
       dj_db (scalar): The gradient of the cost w.r.t. the parameter b     
@@ -57,11 +47,12 @@ class LinearReg:
     def compute_gradient(self):
         Y_pred = self.f_w_b(self.input)
 
-        dj_dw = np.sum(np.multiply((Y_pred - self.output),self.input))/np.size(self.output) # Derivada parcial de w respecto a x.
-        dj_db = np.sum(Y_pred - self.output)/np.size(self.output) # Derivada parcial de b respecto a x.
+        # Derivada parcial de j respecto a w.
+        dj_dw = (self.input.T @ (Y_pred - self.output)) / self.m
+        # Derivada parcial de j respecto a b.
+        dj_db = np.sum(Y_pred - self.output) / self.m 
+        
         return dj_dw, dj_db
-
-
     
     """
     Performs batch gradient descent to learn theta. Updates theta by taking 
@@ -81,22 +72,23 @@ class LinearReg:
       b_initial : (scalar) initial b value before running gradient descent
     """
     def gradient_descent(self, alpha, num_iters):
-        # An array to store cost J and w's at each iteration — primarily for graphing later
+        # Array de historial de coste para cada iteracion
         J_history = []
         w_history = []
         b_history = []
         w_initial = copy.deepcopy(self.w)  # avoid modifying global w within function
-        b_initial = copy.deepcopy(self.b)  # avoid modifying global w within function
+        b_initial = copy.deepcopy(self.b)  # avoid modifying global b within function
         # Gradient descent iteration by m examples.
         w_history.append(w_initial)
         J_history.append(self.compute_cost())
         b_history.append(b_initial)
         
         for i  in range(num_iters):
-            new_w, new_b = self.compute_gradient()
-
-            self.w = self.w - alpha * new_w
-            self.b = self.b - alpha * new_b
+            # Pendiente de la funcion de coste respecto a w y b
+            grad_w, grad_b = self.compute_gradient()
+            # Modifica los parametros w y b en la direccion de la pendiente negativa
+            self.w = self.w - alpha * grad_w
+            self.b = self.b - alpha * grad_b
 
             J_history.append(self.compute_cost())
             w_history.append(self.w)
